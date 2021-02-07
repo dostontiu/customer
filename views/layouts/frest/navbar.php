@@ -1,9 +1,6 @@
 <?php
 
-use common\models\MoneyRate;
 use yii\helpers\Html;
-use common\models\SellGoodConsignment;
-use backend\models\search\GoodSearch;
 ?>
 
     <!-- NAVBAR -->

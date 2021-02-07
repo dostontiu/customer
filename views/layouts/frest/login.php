@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use common\assets\frest\LoginAsset;
+use app\assets\frest\LoginAsset;
 //use Yii;
 
 /* @var $this \yii\web\View */

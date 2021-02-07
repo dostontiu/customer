@@ -2,13 +2,12 @@
 
 namespace app\controllers;
 
+use app\models\LoginForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
-use yii\web\Response;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
+use yii\web\Cookie;
 
 class SiteController extends Controller
 {
@@ -20,12 +19,16 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['error', 'logout', 'index', 'menu-left', 'dark', 'light', 'language'],
                         'allow' => true,
                         'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => ['login', 'error', 'index'],
+                        'allow' => true,
+                        'roles' => ['?'],
                     ],
                 ],
             ],
@@ -38,6 +41,17 @@ class SiteController extends Controller
         ];
     }
 
+    public function beforeAction($action)
+    {
+        if ($action->id == 'menu-left'){
+            $this->enableCsrfValidation = false;
+        }elseif ($action->id == 'deny'|| $action->id=='seny'|| $action->id=='under') {
+            $this->layout = 'frest/login';
+        }
+
+        return parent::beforeAction($action);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -46,10 +60,7 @@ class SiteController extends Controller
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
-            ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+                'layout' => (Yii::$app->user->id) ? 'frest/main' : 'frest/login',
             ],
         ];
     }
@@ -67,10 +78,12 @@ class SiteController extends Controller
     /**
      * Login action.
      *
-     * @return Response|string
+     * @return string
      */
     public function actionLogin()
     {
+        $this->layout = 'frest/login';
+
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -78,18 +91,19 @@ class SiteController extends Controller
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
-        }
+        } else {
+            $model->password = '';
 
-        $model->password = '';
-        return $this->render('login', [
-            'model' => $model,
-        ]);
+            return $this->render('login', [
+                'model' => $model,
+            ]);
+        }
     }
 
     /**
      * Logout action.
      *
-     * @return Response
+     * @return string
      */
     public function actionLogout()
     {
@@ -98,31 +112,49 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
-    /**
-     * Displays contact page.
-     *
-     * @return Response|string
-     */
-    public function actionContact()
+    public function actionMenuLeft()
     {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
+        $res = $_POST['menu_lefts'];
+        $session = Yii::$app->session;
+        if ($session->get('menu_left') == 0) {
+            $session = Yii::$app->session;
+            $session->set('menu_left', 1);
+        } else {
+            $session = Yii::$app->session;
+            $session->set('menu_left', 0);
         }
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $res;
     }
 
-    /**
-     * Displays about page.
-     *
-     * @return string
-     */
-    public function actionAbout()
+    public function actionDark()
     {
-        return $this->render('about');
+        $res = 0;
+        $session = Yii::$app->session;
+        if ($session->get('menu_dark') == 0) {
+            $session = Yii::$app->session;
+            $session->set('menu_dark', 1);
+            $res = 1;
+        } else {
+            $session = Yii::$app->session;
+            $session->set('menu_dark', 0);
+        }
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $res;
+    }
+
+    public function actionLanguage($lang)
+    {
+        Yii::$app->language = $lang;
+
+        $languageCookie = new Cookie([
+            'name' => 'language',
+            'value' => $lang,
+            'expire' => time() + 60 * 60 * 24 * 30, //30 days
+        ]);
+
+        Yii::$app->response->cookies->add($languageCookie);
+
+        return $this->redirect(Yii::$app->request->referrer);
     }
 }
