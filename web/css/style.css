@@ -1,0 +1,31 @@
+.grid-view .card {
+    margin-bottom: 0;
+}
+
+body.page-scrolled nav.header-navbar {
+    background-color: rgb(255, 255, 255) !important;
+    box-shadow: rgba(25, 42, 70, 0.13) -8px 12px 18px 0px !important;
+}
+
+.kv-panel-before {
+    padding: 0;
+    padding-bottom: 8px;
+    border: 0;
+}
+
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+.separator::before, .separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #000;
+}
+.separator::before {
+    margin-right: .25em;
+}
+.separator::after {
+    margin-left: .25em;
+}
