@@ -1,6 +1,7 @@
 <?php
 
-use yii\helpers\Html;
+    use app\models\Customer;
+    use yii\helpers\Html;
 use kartik\grid\GridView;
 use yii\helpers\Url;
 
@@ -15,23 +16,6 @@ Yii::$app->formatter->nullDisplay = '&mdash;';
 
 $columns = [
     ['class' => 'kartik\grid\SerialColumn'],
-    [
-        'class' => 'kartik\grid\ActionColumn',
-        'template' => '{update}',
-        'header' => '@',
-        'buttons' => [
-            'update' => function ($url, $model) {
-                return Html::a(
-                    '<span class="bx bx-sm bxs-pencil"></span>', 'javascript:void(0)',
-                    ['data' => ['id' => $model->id],
-                        'title' => Yii::t('app', 'Edit'),
-                        'aria-label' => Yii::t('app', 'Edit'),
-                        'class' => 'update-customer'
-                    ]
-                );
-            }
-        ],
-    ],
     [
         'attribute' => 'first_name',
         'format' => 'raw',
@@ -57,13 +41,53 @@ $columns = [
         'filterInputOptions' => ['class' => 'form-control  form-control-sm'],
     ],
     [
+        'attribute' => 'birth_date',
+        'format' => 'date',
+        'filterInputOptions' => ['class' => 'form-control  form-control-sm'],
+    ],
+    [
+        'attribute' => 'gender',
+        'format' => 'text',
+        'filter' => [Customer::STATUS_MALE => Yii::t('app', 'Male'), Customer::STATUS_FEMALE => Yii::t('app', 'Female')],
+        'filterInputOptions' => ['prompt' => Yii::t('app', 'All'), 'class' => 'form-control  form-control-sm'],
+        'value' => function($model){
+            if ($model->gender == Customer::STATUS_MALE) {
+                return 'Male';
+            } elseif ($model->gender == Customer::STATUS_FEMALE) {
+                return 'Female';
+            }
+            return false;
+        },
+    ],
+    [
+        'attribute' => 'p_number',
+        'format' => 'text',
+        'filterInputOptions' => ['class' => 'form-control  form-control-sm'],
+    ],
+    [
+        'attribute' => 'phone',
+        'format' => 'text',
+        'filterInputOptions' => ['class' => 'form-control  form-control-sm'],
+    ],
+    [
+        'attribute' => 'experience',
+        'format' => 'text',
+        'filterInputOptions' => ['class' => 'form-control  form-control-sm'],
+    ],
+    [
+        'attribute' => 'start_time',
+        'format' => 'date',
+        'filterInputOptions' => ['class' => 'form-control  form-control-sm'],
+    ],
+    [
         'attribute' => 'address',
         'format' => 'text',
         'filterInputOptions' => ['class' => 'form-control  form-control-sm'],
     ],
     [
         'class' => 'kartik\grid\ActionColumn',
-        'template' => '{delete}',
+        'noWrap' => true,
+        'template' => '{update} &nbsp; &nbsp;{delete}',
         'header' => Yii::t('app', 'Delete'),
         'buttons' => [
             'delete' => function ($url, $model) {
@@ -79,6 +103,16 @@ $columns = [
                         'aria-label' => Yii::t('app', 'Delete'),
                     ]);
             },
+            'update' => function ($url, $model) {
+                return Html::a(
+                    '<span class="bx bx-sm bxs-pencil"></span>', 'javascript:void(0)',
+                    ['data' => ['id' => $model->id],
+                     'title' => Yii::t('app', 'Edit'),
+                     'aria-label' => Yii::t('app', 'Edit'),
+                     'class' => 'update-customer'
+                    ]
+                );
+            }
         ],
     ],
 
