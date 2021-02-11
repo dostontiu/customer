@@ -120,7 +120,7 @@ $columns = [
                     ['data' => ['id' => $model->id],
                      'title' => Yii::t('app', 'Edit'),
                      'aria-label' => Yii::t('app', 'Edit'),
-                     'class' => 'update-customer'
+                     'class' => 'update'
                     ]
                 );
             }
