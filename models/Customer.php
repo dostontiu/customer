@@ -24,6 +24,7 @@ use yii\db\ActiveRecord;
  * @property string|null $created_at
  * @property string|null $updated_at
  *
+ * @property string $fullName
  * @property User $user
  */
 class Customer extends \yii\db\ActiveRecord
@@ -53,6 +54,15 @@ class Customer extends \yii\db\ActiveRecord
     const STATUS_MALE = 1;
     const STATUS_FEMALE = 2;
 
+    public static function getYears()
+    {
+        $years = [];
+        for ($i = date('Y'); $i > date('Y')-50; $i--){
+            $years[$i] = $i.'-'.Yii::t('app', 'year');
+        }
+        return $years;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -78,6 +88,7 @@ class Customer extends \yii\db\ActiveRecord
             'first_name' => Yii::t('app', 'First name'),
             'last_name' => Yii::t('app', 'Last name'),
             'middle_name' => Yii::t('app', 'Middle name'),
+            'fullName' => Yii::t('app', 'Full Name'),
             'birth_date' => Yii::t('app', 'Birth date'),
             'gender' => Yii::t('app', 'Gender'),
             'p_number' => Yii::t('app', 'P number'),
@@ -99,5 +110,13 @@ class Customer extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullName()
+    {
+        return $this->last_name. ' '. $this->first_name. ' '. $this->middle_name;
     }
 }

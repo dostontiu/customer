@@ -1,7 +1,7 @@
 <?php
 
-    use app\models\Customer;
-    use yii\helpers\Html;
+use app\models\Customer;
+use yii\helpers\Html;
 use kartik\grid\GridView;
 use yii\helpers\Url;
 
@@ -17,11 +17,11 @@ Yii::$app->formatter->nullDisplay = '&mdash;';
 $columns = [
     ['class' => 'kartik\grid\SerialColumn'],
     [
-        'attribute' => 'first_name',
+        'attribute' => 'fullName',
         'format' => 'raw',
         'filterInputOptions' => ['class' => 'form-control  form-control-sm'],
         'value' => function($model){
-            return Html::button($model->first_name ?? 'name', [
+            return Html::button($model->fullName ?? 'name', [
                 'class' => 'view-button btn btn-link',
                 'data-id' => $model->id,
                 'title' => Yii::t('app', 'View'),
@@ -31,19 +31,29 @@ $columns = [
         },
     ],
     [
-        'attribute' => 'last_name',
-        'format' => 'text',
-        'filterInputOptions' => ['class' => 'form-control  form-control-sm'],
-    ],
-    [
-        'attribute' => 'middle_name',
-        'format' => 'text',
-        'filterInputOptions' => ['class' => 'form-control  form-control-sm'],
-    ],
-    [
         'attribute' => 'birth_date',
-        'format' => 'date',
+        'format' => ['date', 'php:d.m.Y'],
         'filterInputOptions' => ['class' => 'form-control  form-control-sm'],
+        'filterType' => GridView::FILTER_DATE_RANGE,
+        'filterWidgetOptions' => [
+            'model' => $searchModel,
+            'convertFormat' => true,
+            'useWithAddon' => false,
+            'options' => [
+                'autocomplete' => 'off',
+            ],
+            'pluginOptions' => [
+                'locale' => ['format' => 'd.m.Y'],
+                'separator' => ' - ',
+                'opens' => 'right',
+                'language' => 'ru',
+                'pluginEvents' => [
+                    'cancel.daterangepicker' => "function(ev, picker) {\$('#daterangeinput').val(''); // clear any inputs};",
+                    'format' => 'Y-m-d',
+                    'opens' => 'left'
+                ],
+            ]
+        ]
     ],
     [
         'attribute' => 'gender',
@@ -77,7 +87,8 @@ $columns = [
     [
         'attribute' => 'start_time',
         'format' => 'date',
-        'filterInputOptions' => ['class' => 'form-control  form-control-sm'],
+        'filterInputOptions' => ['prompt' => Yii::t('app', 'Select'), 'class' => 'form-control  form-control-sm', 'type' => 'number'],
+        'filter' => Customer::getYears(),
     ],
     [
         'attribute' => 'address',
@@ -123,6 +134,8 @@ $columns = [
 <div class="customer-index">
 
     <?= GridView::widget([
+        'id' => 'crud-datatable',
+        'pjax' => true,
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'condensed' => true,

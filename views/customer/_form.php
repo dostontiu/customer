@@ -12,7 +12,7 @@ use yii\helpers\Url;
 
 <div class="customer-form">
 
-    <?php $form = ActiveForm::begin(['id' => 'save-customer', 'action' => Url::to(['customer/save', 'id' => $model->id]), 'method' => 'post']); ?>
+    <?php $form = ActiveForm::begin(['id' => 'save', 'action' => Url::to(['customer/save', 'id' => $model->id]), 'method' => 'post']); ?>
 
     <div class="row">
         <div class="col-4">
@@ -60,7 +60,7 @@ use yii\helpers\Url;
     </div>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Add') : Yii::t('app', 'Edit'), ['id' => 'save-customer-form', 'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Add') : Yii::t('app', 'Edit'), ['id' => 'save-form', 'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -112,11 +112,11 @@ class CustomerController extends Controller
         $result = [];
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $result['success'] = 1;
+            $result['success'] = true;
             $result['view'] = $this->render('_form', ['model' => new Customer()]);
             $result['model'] = $model;
         } else {
-            $result['success'] = 0;
+            $result['success'] = false;
             $result['view'] = $this->render('_form', ['model' => $model]);
             $result['errors'] = $model->getErrors();
         }

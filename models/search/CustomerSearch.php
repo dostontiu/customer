@@ -12,6 +12,9 @@ use app\models\Customer;
  */
 class CustomerSearch extends Customer
 {
+
+    public $fullName;
+
     /**
      * @inheritdoc
      */
@@ -19,7 +22,7 @@ class CustomerSearch extends Customer
     {
         return [
             [['id', 'gender', 'experience', 'user_id'], 'integer'],
-            [['first_name', 'last_name', 'middle_name', 'birth_date', 'p_number', 'phone', 'start_time', 'address', 'created_at', 'updated_at'], 'safe'],
+            [['fullName', 'first_name', 'last_name', 'middle_name', 'birth_date', 'p_number', 'phone', 'start_time', 'address', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -42,6 +45,7 @@ class CustomerSearch extends Customer
     public function search($params)
     {
         $query = Customer::find();
+        $query->orderBy(['id' => SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -56,10 +60,8 @@ class CustomerSearch extends Customer
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'birth_date' => $this->birth_date,
             'gender' => $this->gender,
             'experience' => $this->experience,
-            'start_time' => $this->start_time,
             'user_id' => $this->user_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
@@ -70,7 +72,19 @@ class CustomerSearch extends Customer
             ->andFilterWhere(['like', 'middle_name', $this->middle_name])
             ->andFilterWhere(['like', 'p_number', $this->p_number])
             ->andFilterWhere(['like', 'phone', $this->phone])
+            ->andFilterWhere(['<=', 'YEAR(`start_time`)', $this->start_time])
             ->andFilterWhere(['like', 'address', $this->address]);
+
+        $query->andWhere('first_name LIKE "%'.$this->fullName.'%"' .
+            ' OR last_name LIKE "%'.$this->fullName.'%"'.
+            ' OR middle_name LIKE "%'.$this->fullName.'%"'
+        );
+
+        if($this->birth_date){
+            $dateBegin = preg_replace('/(\d{2}).(\d{2}).(\d{1,4}) - (\d{2}).(\d{2}).(\d{1,4})/', '$3-$2-$1', $this->birth_date);
+            $dateEnd = preg_replace('/(\d{2}).(\d{2}).(\d{1,4}) - (\d{2}).(\d{2}).(\d{1,4})/', '$6-$5-$4', $this->birth_date);
+            $query->andWhere("birth_date BETWEEN '{$dateBegin}' AND '{$dateEnd}'");
+        }
 
         return $dataProvider;
     }
