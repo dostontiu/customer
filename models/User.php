@@ -75,40 +75,6 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     }
 
     /**
-     * Gets query for [[Role]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRole(){
-        return $this->hasOne(Role::className(), ['id' => 'role_id']);
-    }
-
-    /**
-     * Gets query for [[Logs]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getLogs()
-    {
-        return $this->hasMany(Log::className(), ['user_id' => 'id']);
-    }
-
-    /**
-     * Gets query for [[CompanyHasUser]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCompanyHasUsers()
-    {
-        return $this->hasMany(CompanyHasUser::className(), ['user_id' => 'id']);
-    }
-
-    public function getCompany()
-    {
-        return $this->hasOne(CompanyHasUser::className(), ['user_id' => 'id']);
-    }
-
-    /**
      * Signs user up.
      *
      * @return User|null the saved model or null if saving fails
@@ -141,17 +107,17 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 
     public function getId()
     {
-        // TODO: Implement getId() method.
+        return $this->id;
     }
 
     public function getAuthKey()
     {
-        // TODO: Implement getAuthKey() method.
+        return $this->auth_key;
     }
 
     public function validateAuthKey($authKey)
     {
-        // TODO: Implement validateAuthKey() method.
+        return $this->auth_key === $authKey;
     }
 
     /**
@@ -162,7 +128,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public function validatePassword($password)
     {
-        return Yii::$app->security->validatePassword($password, $this->password);
+        return Yii::$app->security->validatePassword($password, $this->password_hash);
     }
 
     /**
