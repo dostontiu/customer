@@ -55,6 +55,41 @@ $config = [
             ],
         ],
 
+        'assetManager' => [
+            'bundles' => [
+                'yii\bootstrap4\BootstrapAsset' => [
+                    'css' => [],
+                ],
+                'yii\bootstrap4\BootstrapPluginAsset' => [
+                    'js' => [],
+                    'css' => [],
+                    'depends' => [
+                        'app\assets\frest\VendorsAsset',
+                    ]
+                ],
+                'yii\bootstrap\BootstrapAsset' => [
+                    'css' => [],
+                ],
+                'yii\bootstrap\BootstrapPluginAsset' => [
+                    'js' => [],
+                    'depends' => [
+                        'app\assets\frest\VendorsAsset',
+                    ]
+                ],
+                'yii\web\JqueryAsset' => [
+                    'js' => YII_ENV_DEV ? ['jquery.js'] : ['jquery.min.js'],
+                ],
+                'kartik\form\ActiveFormAsset' => [
+                    'depends' => [
+                        'app\assets\frest\VendorsAsset',
+                    ],
+                ],
+                'kartik\bs4dropdown\DropdownAsset' => [
+                    'js' => [],
+                    'css' => [],
+                ],
+            ]
+        ],
     ],
     'params' => $params,
 ];
