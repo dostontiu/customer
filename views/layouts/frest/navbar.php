@@ -16,10 +16,9 @@ use yii\helpers\Html;
                         </ul>
                         <ul class="nav navbar-nav bookmark-icons">
                             <li class="nav-item d-none d-lg-block">
-                                <a class="btn btn-outline-success" href="<?= \yii\helpers\Url::to(['/sell/index']) ?>"
-                                   data-toggle="tooltip" data-placement="top" title="<?= Yii::t('app', 'New order') ?>">
-                                    <i class="bx bx-plus"></i>
-                                    <?= Yii::t('app', 'New order') ?>
+                                <a class="btn btn-outline-success" href="<?= \yii\helpers\Url::to(['/customer/index']) ?>"
+                                   data-toggle="tooltip" data-placement="top" title="<?= Yii::t('app', 'Customers') ?>">
+                                    <?= Yii::t('app', 'Customers') ?>
                                 </a>
                             </li>
                         </ul>

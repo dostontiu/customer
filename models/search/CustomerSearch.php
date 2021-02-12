@@ -62,7 +62,6 @@ class CustomerSearch extends Customer
             'id' => $this->id,
             'gender' => $this->gender,
             'experience' => $this->experience,
-            'user_id' => $this->user_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);

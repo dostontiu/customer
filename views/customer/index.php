@@ -99,7 +99,7 @@ $columns = [
         'class' => 'kartik\grid\ActionColumn',
         'noWrap' => true,
         'template' => '{update} &nbsp; &nbsp;{delete}',
-        'header' => Yii::t('app', 'Delete'),
+        'header' => Yii::t('app', 'Actions'),
         'buttons' => [
             'delete' => function ($url, $model) {
                 return Html::a(
@@ -151,7 +151,7 @@ $columns = [
         ],
         'toolbar' => [
             '<div style="align-self: center;">&nbsp;' .
-            Html::button('<i class="bx bx-plus-medical"></i>', ['class' => 'btn pl-2 pr-2 btn-success create']).
+            Html::button('<i class="bx bx-plus-medical"></i> Create new', ['class' => 'btn pl-2 pr-2 btn-success create']).
             '&nbsp; &nbsp; {toggleData} &nbsp; {export}</div>'
         ],
         'panelTemplate' => '{panelBefore}{items}{panelAfter}{panelFooter}',
