@@ -1,25 +1,8 @@
 <?php
 
 $items = [
-    ['label' => '<i class="bx bx-detail"></i> ' . Yii::t('app', 'New order'), 'url' => ['/sell/index'], 'active' => $this->context->route == 'sell/edit' || $this->context->route == 'sell/index'],
-    ['label' => Yii::t('app', 'Product management'),
-        'url' => '',
-        'template' => '<a href="{url}" ><i class="bx bxs-cube"></i>{label}</a>',
-        'options' => ['class' => 'nav-item has-sub'],
-        'items' => [
-            ['label' => '<i class="bx bxs-bowling-ball"></i> ' . Yii::t('app', 'Goods'), 'url' => ['/good/index']],
-            ['label' => '<i class="bx bx-alarm"></i> ' . Yii::t('app', 'Write-offs'), 'url' => ['/expense-good/index']],
-        ],
-    ],
-    ['label' => Yii::t('app', 'Customer'),
-        'url' => '',
-        'template' => '<a href="{url}" ><i class="bx bxs-user-check"></i>{label}</a>',
-        'options' => ['class' => 'nav-item has-sub'],
-        'items' => [
-            ['label' => '<i class="bx bx-user-circle"></i> ' . Yii::t('app', 'Customer list'), 'url' => ['/customer/index']],
-            ['label' => '<i class="bx bx-archive"></i> ' . Yii::t('app', 'Balance customer'), 'url' => ['/balance-customer/index']],
-        ],
-    ],
+    ['label' => '<i class="bx bxs-bowling-ball"></i> ' . Yii::t('app', 'Home'), 'url' => ['site/index']],
+    ['label' => '<i class="bx bx-detail"></i> ' . Yii::t('app', 'List'), 'url' => ['customer/index']],
 ];
 
 ?>

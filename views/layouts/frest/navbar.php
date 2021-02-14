@@ -18,7 +18,7 @@ use yii\helpers\Html;
                             <li class="nav-item d-none d-lg-block">
                                 <a class="btn btn-outline-success" href="<?= \yii\helpers\Url::to(['/customer/index']) ?>"
                                    data-toggle="tooltip" data-placement="top" title="<?= Yii::t('app', 'Customers') ?>">
-                                    <?= Yii::t('app', 'Customers') ?>
+                                    <?= Yii::t('app', 'List') ?>
                                 </a>
                             </li>
                         </ul>
