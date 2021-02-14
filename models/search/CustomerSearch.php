@@ -74,15 +74,19 @@ class CustomerSearch extends Customer
             ->andFilterWhere(['<=', 'YEAR(`start_time`)', $this->start_time])
             ->andFilterWhere(['like', 'address', $this->address]);
 
-        $query->andWhere('first_name LIKE "%'.$this->fullName.'%"' .
-            ' OR last_name LIKE "%'.$this->fullName.'%"'.
-            ' OR middle_name LIKE "%'.$this->fullName.'%"'
-        );
+        if ($this->fullName) {
+            $query->andWhere("`first_name` LIKE :fullName OR `last_name` LIKE :fullName OR `middle_name` LIKE :fullName", [
+                'fullName' => '%'.$this->fullName.'%'
+            ]);
+        }
 
         if($this->birth_date){
             $dateBegin = preg_replace('/(\d{2}).(\d{2}).(\d{1,4}) - (\d{2}).(\d{2}).(\d{1,4})/', '$3-$2-$1', $this->birth_date);
             $dateEnd = preg_replace('/(\d{2}).(\d{2}).(\d{1,4}) - (\d{2}).(\d{2}).(\d{1,4})/', '$6-$5-$4', $this->birth_date);
-            $query->andWhere("birth_date BETWEEN '{$dateBegin}' AND '{$dateEnd}'");
+            $query->andWhere("birth_date BETWEEN :dateBegin AND :dateEnd", [
+                'dateBegin' => $dateBegin,
+                'dateEnd' => $dateEnd,
+            ]);
         }
 
         return $dataProvider;
