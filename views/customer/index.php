@@ -135,6 +135,7 @@ $columns = [
 
     <?= GridView::widget([
         'id' => 'crud-datatable',
+        'tableOptions' => ['class' => 'table-sm'],
         'pjax' => true,
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -163,11 +164,6 @@ $columns = [
         'export' => [
             'icon' => 'fas fa-external-link-alt',
             'fontAwesome' => true,
-        ],
-        'showPageSummary' => true,
-        'summaryOptions' => [
-            'class' => 'summary',
-            'style' => 'display: table-cell; vertical-align:middle;'
         ],
         'pager' => [
             'class' => 'yii\bootstrap4\LinkPager'
