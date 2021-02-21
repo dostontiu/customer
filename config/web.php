@@ -4,10 +4,16 @@ $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
-    'id' => 'basic',
+    'id' => 'customer',
+    'language' => 'ru-RU',
+    'sourceLanguage' => 'ru',
     'layout' => 'frest/main',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => [
+        'log',
+        ['class' => 'app\widgets\LanguageSelector'],
+
+    ],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
@@ -89,6 +95,14 @@ $config = [
                     'css' => [],
                 ],
             ]
+        ],
+        'i18n' => [
+            'translations' => [
+                'app' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@app/messages',
+                ],
+            ],
         ],
     ],
     'params' => $params,
