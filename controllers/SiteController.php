@@ -72,7 +72,12 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $countProducts = 5;
+        $countCustomers = 18;
+        return $this->render('index', [
+            'countProducts' => $countProducts,
+            'countCustomers' => $countCustomers,
+        ]);
     }
 
     /**
